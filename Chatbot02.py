@@ -1,7 +1,7 @@
 import requests
 import gradio as gr
 ## Deepset API URL
-ollama_url = "https://localhost:11434/chat/completions"
+ollama_url = "http://localhost:11434/chat/generate"
 
 ## Create a sample FAQ Database 
 FAQ_DB = {
@@ -16,17 +16,24 @@ FAQ_DB = {
 def chatbot_response(user_query):
     # Check if the query matches any FAQ Else look out for the best match and respond
     prompt = f'Find the best answer to the following question based on the {user_query}\n'
-    f'The list of FAqs are: {FAQ_DB}\n'
-    f'Try to find the best match for the question and respond with the answer based on the matching FAQ from {FAQ_DB}.\n'
+    f'The list of FAqs are: {FAQ_DB.keys()}\n'
+    f'Try to find the best match for the question and respond with the answer based on the matching FAQ from {FAQ_DB.keys()}.\n'
     f'If the answer cannot be found even from the FAQ, respond with "I am not sure about that. Please contact our customer support for further assistance."'
     payload={
-        "model"="deepseek-r1:1.5b",
-        "prompt"=prompt,
-        "stream"=False,
+        "model":"deepseek-r1:1.5b",
+        "prompt":prompt,
+        "stream":False
     }
     response= requests.post(ollama_url, json=payload)
+
     if response.status_code == 200:
-        chatbot_response = response.json().get(response, "I am sorry and not sure about that.")
-        return FAQ_DB.get(chatbot_response)
+        ai_response = response.json().get("response", "I am sorry and not sure about that.")
+        return FAQ_DB.get(ai_response.lower(),ai_response)
     else:
         return "I am sorry, I could not process your request at the moment. Please try again later."
+    
+#Test the chatbot_response function
+if __name__ == "__main__":
+    test_query = "How can I track my order?"
+    print("User Query:", test_query)
+    print("Chatbot Response:", chatbot_response(test_query))
