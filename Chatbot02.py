@@ -13,6 +13,20 @@ FAQ_DB = {
     "shipping details": "Orders are processed within 24 hours. Standard shipping takes 3-5 business days."
 }
 ## Function to handle user queries
-def chatvot_response(user_query):
+def chatbot_response(user_query):
     # Check if the query matches any FAQ Else look out for the best match and respond
-    prompt 
+    prompt = f'Find the best answer to the following question based on the {user_query}\n'
+    f'The list of FAqs are: {FAQ_DB}\n'
+    f'Try to find the best match for the question and respond with the answer based on the matching FAQ from {FAQ_DB}.\n'
+    f'If the answer cannot be found even from the FAQ, respond with "I am not sure about that. Please contact our customer support for further assistance."'
+    payload={
+        "model"="deepseek-r1:1.5b",
+        "prompt"=prompt,
+        "stream"=False,
+    }
+    response= requests.post(ollama_url, json=payload)
+    if response.status_code == 200:
+        chatbot_response = response.json().get(response, "I am sorry and not sure about that.")
+        return FAQ_DB.get(chatbot_response)
+    else:
+        return "I am sorry, I could not process your request at the moment. Please try again later."
