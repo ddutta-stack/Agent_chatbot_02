@@ -1,7 +1,7 @@
 import requests
 import gradio as gr
 ## Deepset API URL
-ollama_url = "http://localhost:11434/chat/generate"
+ollama_url = "http://localhost:11434/api/generate"
 
 ## Create a sample FAQ Database 
 FAQ_DB = {
@@ -34,6 +34,15 @@ def chatbot_response(user_query):
     
 #Test the chatbot_response function
 if __name__ == "__main__":
+    # interface = gr.Interface(
+    #     fn=chatbot_response,
+    #     inputs=gr.Textbox(label="User Query", placeholder="Type your question here..."),
+    #     outputs=gr.Textbox(label="Chatbot Response"),
+    #     title="Customer Support Chatbot",
+    #     description="Ask questions related to order tracking, return policy, customer support, payment methods, and shipping details."
+    # )
+    # interface.launch()
+
     test_query = "How can I track my order?"
     print("User Query:", test_query)
     print("Chatbot Response:", chatbot_response(test_query))
