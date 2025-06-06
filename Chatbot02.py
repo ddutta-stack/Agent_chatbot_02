@@ -13,3 +13,6 @@ FAQ_DB = {
     "shipping details": "Orders are processed within 24 hours. Standard shipping takes 3-5 business days."
 }
 ## Function to handle user queries
+def chatvot_response(user_query):
+    # Check if the query matches any FAQ Else look out for the best match and respond
+    prompt 
