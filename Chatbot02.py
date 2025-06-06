@@ -18,7 +18,7 @@ def chatbot_response(user_query):
     prompt = f'Find the best answer to the following question based on the {user_query}\n'
     f'The list of FAqs are: {FAQ_DB.keys()}\n'
     f'Try to find the best match for the question and respond with the answer based on the matching FAQ from {FAQ_DB.keys()}.\n'
-    f'If the answer cannot be found even from the FAQ, respond with "I am not sure about that. Please contact our customer support for further assistance."'
+    f'If the question seems out of context and answer cannot be found even from the FAQ, respond with "I am not sure about that. Please contact our customer support for further assistance."'
     payload={
         "model":"deepseek-r1:1.5b",
         "prompt":prompt,
@@ -34,6 +34,6 @@ def chatbot_response(user_query):
     
 #Test the chatbot_response function
 if __name__ == "__main__":
-    test_query = "How can I track my order?"
+    test_query = "How can I become the best salesman of the year?"
     print("User Query:", test_query)
     print("Chatbot Response:", chatbot_response(test_query))
